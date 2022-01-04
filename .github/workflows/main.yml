@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Update Data and Notebook
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  schedule:
+    - cron: '0 5 * * 6' # UTC; Saturday 12AM EST
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  weekly_update:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+      BITIO_PG_STRING: ${{ secrets.BITIO_PG_STRING }}
+      BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip -r requirements.txt
+        # might need to add traitlets?
+      - name: Update analysis notebook
+        run: |
+          python -m pip install jupyter nbconvert nbformat
+          python src/nbconverter.py notebooks/analytics_plots.ipynb
+          jupyter nbconvert --to notebook --execute notebooks/bls_notebook_template.ipynb --TemplateExporter.exclude_input=True --ExecutePreprocessor.kernel_name='python3' --output ../bls_notebook_executed
+

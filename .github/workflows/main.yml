@@ -33,6 +33,11 @@ jobs:
       - name: Update analysis notebook
         run: |
           python -m pip install jupyter nbconvert nbformat
-          python src/nbconverter.py notebooks/analytics_plots.ipynb
           jupyter nbconvert --to notebook --execute notebooks/bls_notebook_template.ipynb --TemplateExporter.exclude_input=True --ExecutePreprocessor.kernel_name='python3' --output ../bls_notebook_executed
 
+    - name: commit updated notebook
+      uses: EndBug/add-and-commit@v7
+      with:
+        author_name: Plot update bot
+        message: "Update Notebook"
+        add: "bls_notebook_executed.ipynb"

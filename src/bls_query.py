@@ -5,20 +5,18 @@ import json
 
 def get_state_fips_codes():
     """
-    Returns a dataframe of state FIPS codes and corresponding names and
-    abbreviations from the U.S. Census Bureau.
+    Returns dataframe of state FIPS codes and state names
+    from the BLS JT series reference
     """
-    url = "https://www2.census.gov/geo/docs/reference/state.txt"
+    url = "https://download.bls.gov/pub/time.series/jt/jt.state"
     data = requests.get(url)
-    data_fmt = data.content.decode("utf-8").split("\n")
+    data_fmt = data.content.decode("utf-8").split("\r\n")
     df = (
         pd.DataFrame(
-            [x.split("|") for x in data_fmt[1:-1]],
-            columns=data_fmt[0].split("|"),
+            [x.split("\t") for x in data_fmt[1:-1]],
+            columns=data_fmt[0].split("\t"),
         )
-        .loc[:, ["STATE", "STUSAB", "STATE_NAME"]]
-        .rename(
-            columns={"STATE": "fips", "STUSAB": "abbrev", "STATE_NAME": "state"}
-        )
+        .loc[:, ["state_code", "state_text"]]
     )
+
     return df

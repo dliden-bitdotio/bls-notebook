@@ -1,7 +1,8 @@
+import json
+
+import numpy as np
 import pandas as pd
 import requests
-import json
-import numpy as np
 
 
 def get_state_fips_codes():
@@ -57,6 +58,7 @@ def build_jolts_dataframe(
     start_year=2018,
     end_year=2022,
     name="Quit Rate (Seasonally Adjusted)",
+    annual=True,
 ):
     """Download JOLTS Data from the BLS API
 
@@ -76,6 +78,8 @@ def build_jolts_dataframe(
         Ending year of JOLTS data to download
     name : str
         Name to give to the downloaded series
+    annual : bool
+        If true, include annual estimates
 
     Returns
     -------
@@ -101,6 +105,8 @@ def build_jolts_dataframe(
             "endyear": f"{end_year}",
         }
         payload.update({"registrationKey": registration_key})
+        if annual:
+            payload.update({"annualaverage": "true"})
         payload = json.dumps(payload)
         response = requests.post(
             "https://api.bls.gov/publicAPI/v2/timeseries/data/",
@@ -123,6 +129,7 @@ def build_jolts_dataframe(
 
     # parse dates
     df_full["month"] = df_full["period"].str.extract("M(\d+)").astype(int)
+    df_full.loc[df_full["period"] == "M13", "month"] = 1
     df_full["date"] = pd.to_datetime(df_full[["year", "month"]].assign(day=1))
     df_full["name"] = name
     df_full["footnotes"] = df_full["footnotes"].apply(
@@ -145,5 +152,6 @@ def build_jolts_dataframe(
             "state_code",
             "value",
             "footnotes",
+            "period",
         ],
     ]

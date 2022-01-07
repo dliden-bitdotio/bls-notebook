@@ -31,7 +31,7 @@ jobs:
         run: python -m pip install --upgrade pip -r requirements.txt
         # might need to add traitlets?
       - name: Update data
-        run: python -m ./src/main.py
+        run: python -m src/main
       - name: Update analysis notebook
         run: |
           python -m pip install jupyter nbconvert nbformat

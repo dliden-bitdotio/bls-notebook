@@ -135,23 +135,42 @@ def build_jolts_dataframe(
     df_full["footnotes"] = df_full["footnotes"].apply(
         lambda x: x[0].setdefault("text", np.nan)
     )
+    df_full["seasonally_adjusted"] = sa
     # df_full['footnotes'] = df_full['footnotes'].apply(lambda x: x[0]['text'])
-    df_full.loc[df_full["period"] == "M13", "date"] = "Annual"
+    df_full.loc[df_full["period"] == "M13", "date"] = None
     # parse geography
     df_full["state_code"] = df_full["series"].str.slice(start=9, stop=11)
     fips_map = {x: y for x, y in zip(fips["state_code"], fips["state_text"])}
     df_full["state"] = df_full["state_code"].map(fips_map)
+
+    # Specify Types
+    df_full = df_full.astype(
+        {
+            "series": "str",
+            "state_code": "str",
+            "state": "str",
+            "year": "int",
+            "date": "datetime64[D]",
+            "name": "str",
+            "footnotes": "str",
+            "seasonally_adjusted": "str",
+            "value": "float",
+        }
+    )
+    df_full["month"] = df_full["date"].dt.month
+
     return df_full.loc[
         :,
         [
             "series",
             "name",
             "year",
+            "month",
             "date",
             "state",
             "state_code",
+            "seasonally_adjusted",
             "value",
             "footnotes",
-            "period",
         ],
     ]

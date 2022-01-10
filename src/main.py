@@ -24,6 +24,7 @@ if __name__ == "__main__":
         end_year=CURRENTYEAR,
         annual=False,
         registration_key=BLS_KEY,
+        name="Quit Rate",
     )
     quitrate_sa["seasonal_adjustment"] = "S"
 
@@ -36,6 +37,7 @@ if __name__ == "__main__":
         end_year=CURRENTYEAR,
         annual=True,
         registration_key=BLS_KEY,
+        name="Quit Rate",
     )
     quitrate_u["seasonal_adjustment"] = "U"
 

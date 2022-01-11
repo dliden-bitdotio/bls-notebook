@@ -192,3 +192,8 @@ def get_recessions_fred(
     return pd.read_json(json.dumps(response.json()["observations"])).loc[
         :, ["date", "value"]
     ]
+
+def monthly_national_sub(bls_series, sa="S"):
+    monthly = bls_series[bls_series.date.notnull()]
+    monthly_national = monthly.loc[(monthly['state'] == "Total US") & (monthly["seasonally_adjusted"] == sa), :]
+    return monthly_national

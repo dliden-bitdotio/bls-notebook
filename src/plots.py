@@ -51,7 +51,7 @@ def labor_turnover_rates(layoffs_data, quits_data, openings_data, recessions_dat
     """
     Plot labor turnover rates.
     """
-    plt.style.use("./bitdotio.mplstyle")
+    plt.style.use("../resources/bitdotio.mplstyle")
     fig, ax = plt.subplots(figsize=(8, 4))
 
     # Plot Lines
@@ -75,7 +75,7 @@ def labor_turnover_rates(layoffs_data, quits_data, openings_data, recessions_dat
 
     # labels at end of lines
     labels = ["Job Openings", "Quits", "Layoffs/Discharges"]
-    x = pd.to_datetime("2022-01-01")
+    x = pd.to_datetime("today")
     y = [6.5, 2.9, 0.8]
     colors = [GREEN, BLUE, RED]
     for i, label in enumerate(labels):

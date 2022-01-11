@@ -1,0 +1,29 @@
+# Colors
+axes.prop_cycle: cycler(color=['0059ff', 'fdbd28', '28D9AA', 'EE5149', '788995', 'DB9995'])
+
+# Axes
+axes.spines.left: False
+axes.spines.right: False
+axes.spines.top: False
+axes.spines.bottom: False
+axes.labelcolor: 0000008F
+axes.labelsize: medium
+
+
+# Grid
+axes.grid: True
+grid.linestyle: dashed
+grid.linewidth: 0.5
+grid.alpha: 0.5
+
+# Fonts
+font.family: 'Inter'
+font.size: 8
+
+# Face Color
+axes.facecolor: 7889950D    
+
+# Default Sizes
+figure.figsize: 8, 6
+figure.dpi: 150
+savefig.dpi: 300

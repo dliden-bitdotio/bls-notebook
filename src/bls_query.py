@@ -174,3 +174,21 @@ def build_jolts_dataframe(
             "footnotes",
         ],
     ]
+
+
+def get_recessions_fred(
+    api_key, start_date="2003-01-01", end_date="2022-01-11"
+):
+    """Get recessions indicators from St. Louis FRED API"""
+    url = "https://api.stlouisfed.org/fred/series/observations"
+    payload = {
+        "series_id": "USRECM",
+        "api_key": api_key,
+        "file_type": "json",
+        "observation_start": start_date,
+        "observation_end": end_date,
+    }
+    response = requests.get(url, params=payload)
+    return pd.read_json(json.dumps(response.json()["observations"])).loc[
+        :, ["date", "value"]
+    ]

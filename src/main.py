@@ -10,8 +10,8 @@ if __name__ == "__main__":
     load_dotenv()
     BLS_KEY = os.environ.get("BLS_API_KEY")
     PG_STRING = os.environ.get("BITIO_PG_STRING")
+    BITIO_REPO = os.environ.get("BITIO_REPO")
     CURRENTYEAR = datetime.datetime.today().year
-    BITIO_REPO = "bitdotio/bls_quit_rate"
     QUIT_RATE_TABLE = "quit_rate"
     LD_TABLE="layoffs_discharges"
     OPENINGS_TABLE="job_openings"

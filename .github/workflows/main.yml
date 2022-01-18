@@ -19,6 +19,7 @@ jobs:
       BITIO_PG_STRING: ${{ secrets.BITIO_PG_STRING }}
       BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
       FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+      BITIO_REPO: ${{ secrets.BITIO_REPO }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it

@@ -130,3 +130,6 @@ dmypy.json
 
 # Project Structure
 offline_notebooks/
+
+# vscode
+.vscode/

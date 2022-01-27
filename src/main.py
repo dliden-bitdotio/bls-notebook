@@ -278,9 +278,9 @@ if __name__ == "__main__":
     hirelevel_combined = hirelevel_sa.append(hirelevel_u)
 
 
-    upload_table(df=industry_quits_combined, upload_schema=BITIO_REPO, upload_table="industry_quits", bitio_pg_string=PG_STRING)
-    upload_table(df=industry_ld_combined, upload_schema=BITIO_REPO, upload_table="industry_ld", bitio_pg_string=PG_STRING)
-    upload_table(df=industry_openings_combined, upload_schema=BITIO_REPO, upload_table="industry_openings", bitio_pg_string=PG_STRING)
+    upload_table(df=industry_quits_combined, upload_schema=BITIO_REPO, upload_table="industry_quit_rate", bitio_pg_string=PG_STRING)
+    upload_table(df=industry_ld_combined, upload_schema=BITIO_REPO, upload_table="industry_ld_rate", bitio_pg_string=PG_STRING)
+    upload_table(df=industry_openings_combined, upload_schema=BITIO_REPO, upload_table="industry_openings_rate", bitio_pg_string=PG_STRING)
     upload_table(df=quitlevel_combined, upload_schema=BITIO_REPO, upload_table="quit_level", bitio_pg_string=PG_STRING)
     upload_table(df=hirelevel_combined, upload_schema=BITIO_REPO, upload_table="hire_level", bitio_pg_string=PG_STRING)
 
@@ -343,3 +343,172 @@ if __name__ == "__main__":
 
     upload_table(df=separations_combined, upload_schema=BITIO_REPO, upload_table="separation_rate", bitio_pg_string=PG_STRING)
     upload_table(df=separationlevel_combined, upload_schema=BITIO_REPO, upload_table="separation_level", bitio_pg_string=PG_STRING)
+
+    # Other Industry Data
+    ## Separation Rate
+    industry_separations_sa = jolts_national_by_industry(
+        element="TS",
+        rate_level="R",
+        sa="S",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Job Separation Rate by Industry",
+    )
+    industry_separations_sa["seasonal_adjustment"] = "S"
+
+    industry_separations_u = jolts_national_by_industry(
+        element="TS",
+        rate_level="R",
+        sa="U",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Job Separation Rate by Industry",
+    )
+    industry_separations_u["seasonal_adjustment"] = "U"
+
+    industry_separations_combined = industry_separations_sa.append(industry_separations_u)
+
+    ## Separation Level
+    industry_separationslevel_sa = jolts_national_by_industry(
+        element="TS",
+        rate_level="L",
+        sa="S",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Job Separation Level by Industry",
+    )
+    industry_separationslevel_sa["seasonal_adjustment"] = "S"
+
+    industry_separationslevel_u = jolts_national_by_industry(
+        element="TS",
+        rate_level="L",
+        sa="U",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Job Separation Level by Industry",
+    )
+    industry_separationslevel_u["seasonal_adjustment"] = "U"
+
+    industry_separationslevel_combined = industry_separationslevel_sa.append(industry_separationslevel_u)
+
+    ## hires by industry
+    industry_hires_sa = jolts_national_by_industry(
+        element="HI",
+        rate_level="R",
+        sa="S",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Hire Rate by Industry",
+    )
+    industry_hires_sa["seasonal_adjustment"] = "S"
+
+    industry_hires_u = jolts_national_by_industry(
+        element="HI",
+        rate_level="R",
+        sa="U",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Hire Rate by Industry",
+    )
+    industry_hires_u["seasonal_adjustment"] = "U"
+
+    industry_hires_combined = industry_hires_sa.append(industry_hires_u)
+
+## hire level by industry
+    industry_hires_sa = jolts_national_by_industry(
+        element="HI",
+        rate_level="R",
+        sa="S",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Hire Rate by Industry",
+    )
+    industry_hires_sa["seasonal_adjustment"] = "S"
+
+    industry_hires_u = jolts_national_by_industry(
+        element="HI",
+        rate_level="R",
+        sa="U",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Hire Rate by Industry",
+    )
+    industry_hires_u["seasonal_adjustment"] = "U"
+
+    industry_hires_combined = industry_hires_sa.append(industry_hires_u)
+
+    ## hire level by industry
+    industry_hirelevel_sa = jolts_national_by_industry(
+        element="HI",
+        rate_level="L",
+        sa="S",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Hire Level by Industry",
+    )
+    industry_hirelevel_sa["seasonal_adjustment"] = "S"
+
+    industry_hirelevel_u = jolts_national_by_industry(
+        element="HI",
+        rate_level="L",
+        sa="U",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Hire Level by Industry",
+    )
+    industry_hirelevel_u["seasonal_adjustment"] = "U"
+
+    industry_hirelevel_combined = industry_hirelevel_sa.append(industry_hirelevel_u)
+
+        ## quit levels
+    industry_quitlevel_sa = jolts_national_by_industry(
+        element="QU",
+        rate_level="L",
+        sa="S",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Quit Level by Industry",
+    )
+    industry_quitlevel_sa["seasonal_adjustment"] = "S"
+
+    industry_quitlevel_u = jolts_national_by_industry(
+        element="QU",
+        rate_level="L",
+        sa="U",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Quit Level by Industry",
+    )
+    industry_quitlevel_u["seasonal_adjustment"] = "U"
+
+    industry_quitlevel_combined = industry_quitlevel_sa.append(industry_quitlevel_u)
+
+    upload_table(df=industry_separations_combined, upload_schema=BITIO_REPO, upload_table="industry_separation_rate", bitio_pg_string=PG_STRING)
+    upload_table(df=industry_separationslevel_combined, upload_schema=BITIO_REPO, upload_table="industry_separation_level", bitio_pg_string=PG_STRING)
+    upload_table(df=industry_hires_combined, upload_schema=BITIO_REPO, upload_table="industry_hire_rate", bitio_pg_string=PG_STRING)
+    upload_table(df=industry_hirelevel_combined, upload_schema=BITIO_REPO, upload_table="industry_hire_level", bitio_pg_string=PG_STRING)
+    upload_table(df=industry_quitlevel_combined, upload_schema=BITIO_REPO, upload_table="industry_quit_level", bitio_pg_string=PG_STRING)

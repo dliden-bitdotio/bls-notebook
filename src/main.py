@@ -283,3 +283,63 @@ if __name__ == "__main__":
     upload_table(df=industry_openings_combined, upload_schema=BITIO_REPO, upload_table="industry_openings", bitio_pg_string=PG_STRING)
     upload_table(df=quitlevel_combined, upload_schema=BITIO_REPO, upload_table="quit_level", bitio_pg_string=PG_STRING)
     upload_table(df=hirelevel_combined, upload_schema=BITIO_REPO, upload_table="hire_level", bitio_pg_string=PG_STRING)
+
+## separation Rate (SA)
+    separations_sa = build_jolts_dataframe(
+            element="TS",
+            rate_level="R",
+            sa="S",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Total Separation Rate",
+        )
+    separations_sa["seasonal_adjustment"] = "S"
+    ## separation Rate (U)
+    separations_u = build_jolts_dataframe(
+            element="TS",
+            rate_level="R",
+            sa="U",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Total Separation Rate",
+        )
+    separations_u["seasonal_adjustment"] = "U"
+
+    ## Combined separation Rate
+    separations_combined = separations_sa.append(separations_u)
+
+
+## separation Level (SA)
+    separationlevel_sa = build_jolts_dataframe(
+            element="TS",
+            rate_level="L",
+            sa="S",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Total Separation Level",
+        )
+    separationlevel_sa["seasonal_adjustment"] = "S"
+    ## separation Rate (U)
+    separationlevel_u = build_jolts_dataframe(
+            element="TS",
+            rate_level="L",
+            sa="U",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Total Separation Level",
+        )
+    separationlevel_u["seasonal_adjustment"] = "U"
+
+    ## Combined separation Rate
+    separationlevel_combined = separationlevel_sa.append(separationlevel_u)
+
+    upload_table(df=separations_combined, upload_schema=BITIO_REPO, upload_table="separation_rate", bitio_pg_string=PG_STRING)
+    upload_table(df=separationlevel_combined, upload_schema=BITIO_REPO, upload_table="separation_level", bitio_pg_string=PG_STRING)

@@ -122,7 +122,7 @@ if __name__ == "__main__":
             sa="U",
             start_year=2003,
             end_year=CURRENTYEAR,
-            annual=False,
+            annual=True,
             registration_key=BLS_KEY,
             name="Hire Rate",
         )
@@ -158,7 +158,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Quit Rate by Industry",
     )
@@ -185,7 +185,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Layoffs and Discharges by Industry",
     )
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Job Openings by Industry",
     )
@@ -268,7 +268,7 @@ if __name__ == "__main__":
             sa="U",
             start_year=2003,
             end_year=CURRENTYEAR,
-            annual=False,
+            annual=True,
             registration_key=BLS_KEY,
             name="Hire Level",
         )
@@ -303,7 +303,7 @@ if __name__ == "__main__":
             sa="U",
             start_year=2003,
             end_year=CURRENTYEAR,
-            annual=False,
+            annual=True,
             registration_key=BLS_KEY,
             name="Total Separation Rate",
         )
@@ -332,7 +332,7 @@ if __name__ == "__main__":
             sa="U",
             start_year=2003,
             end_year=CURRENTYEAR,
-            annual=False,
+            annual=True,
             registration_key=BLS_KEY,
             name="Total Separation Level",
         )
@@ -364,7 +364,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Job Separation Rate by Industry",
     )
@@ -391,7 +391,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Job Separation Level by Industry",
     )
@@ -418,7 +418,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Hire Rate by Industry",
     )
@@ -445,7 +445,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Hire Rate by Industry",
     )
@@ -472,7 +472,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Hire Level by Industry",
     )
@@ -499,7 +499,7 @@ if __name__ == "__main__":
         sa="U",
         start_year=2003,
         end_year=CURRENTYEAR,
-        annual=False,
+        annual=True,
         registration_key=BLS_KEY,
         name="Quit Level by Industry",
     )

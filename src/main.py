@@ -13,6 +13,7 @@ if __name__ == "__main__":
     BITIO_REPO = os.environ.get("BITIO_REPO")
     CURRENTYEAR = datetime.datetime.today().year
     QUIT_RATE_TABLE = "quit_rate"
+    HIRE_RATE_TABLE = "hire_rate"
     LD_TABLE="layoffs_discharges"
     OPENINGS_TABLE="job_openings"
 
@@ -101,12 +102,41 @@ if __name__ == "__main__":
 
     ## Combined Layoffs & Discharges
     openings_combined = openings_sa.append(openings_u)
+
+    ## Hire Rate (SA)
+    hires_sa = build_jolts_dataframe(
+            element="HI",
+            rate_level="R",
+            sa="S",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Hire Rate",
+        )
+    hires_sa["seasonal_adjustment"] = "S"
+    ## Hire Rate (U)
+    hires_u = build_jolts_dataframe(
+            element="HI",
+            rate_level="R",
+            sa="U",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Hire Rate",
+        )
+    hires_u["seasonal_adjustment"] = "U"
+
+    ## Combined Hire Rate
+    hires_combined = hires_sa.append(hires_u)
     
 
     # Upload to bit.io
     upload_table(df=quitrate_combined, upload_schema=BITIO_REPO, upload_table=QUIT_RATE_TABLE, bitio_pg_string=PG_STRING)
     upload_table(df=ld_combined, upload_schema=BITIO_REPO, upload_table=LD_TABLE, bitio_pg_string=PG_STRING)
     upload_table(df=openings_combined, upload_schema=BITIO_REPO, upload_table=OPENINGS_TABLE, bitio_pg_string=PG_STRING)
+    upload_table(df=hires_combined, upload_schema=BITIO_REPO, upload_table=HIRE_RATE_TABLE, bitio_pg_string=PG_STRING)
 
     # Industry Level Data
     ## quit rates
@@ -190,7 +220,66 @@ if __name__ == "__main__":
 
     industry_openings_combined = industry_openings_sa.append(industry_openings_u)
 
+    # quit level
+    quitlevel_sa = build_jolts_dataframe(
+        element="QU",
+        rate_level="L",
+        sa="S",
+        start_year=2003,
+        end_year=CURRENTYEAR,
+        annual=False,
+        registration_key=BLS_KEY,
+        name="Quit Level",
+    )
+    quitlevel_sa["seasonal_adjustment"] = "S"
+
+    ## Non Seasonally Adjusted Quit Rate (for Annual estimates)
+    quitlevel_u = build_jolts_dataframe(
+        element="QU",
+        rate_level="L",
+        sa="U",
+        start_year=2001,
+        end_year=CURRENTYEAR,
+        annual=True,
+        registration_key=BLS_KEY,
+        name="Quit Level",
+    )
+    quitlevel_u["seasonal_adjustment"] = "U"
+
+    ## Combined Quit Rate (adjusted and unadjusted)
+    quitlevel_combined = quitlevel_sa.append(quitlevel_u)
+
+    ## Hire Level (SA)
+    hirelevel_sa = build_jolts_dataframe(
+            element="HI",
+            rate_level="L",
+            sa="S",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Hire Level",
+        )
+    hirelevel_sa["seasonal_adjustment"] = "S"
+    ## Hire Rate (U)
+    hirelevel_u = build_jolts_dataframe(
+            element="HI",
+            rate_level="L",
+            sa="U",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Hire Level",
+        )
+    hirelevel_u["seasonal_adjustment"] = "U"
+
+    ## Combined Hire Rate
+    hirelevel_combined = hirelevel_sa.append(hirelevel_u)
+
 
     upload_table(df=industry_quits_combined, upload_schema=BITIO_REPO, upload_table="industry_quits", bitio_pg_string=PG_STRING)
     upload_table(df=industry_ld_combined, upload_schema=BITIO_REPO, upload_table="industry_ld", bitio_pg_string=PG_STRING)
     upload_table(df=industry_openings_combined, upload_schema=BITIO_REPO, upload_table="industry_openings", bitio_pg_string=PG_STRING)
+    upload_table(df=quitlevel_combined, upload_schema=BITIO_REPO, upload_table="quit_level", bitio_pg_string=PG_STRING)
+    upload_table(df=hirelevel_combined, upload_schema=BITIO_REPO, upload_table="hire_level", bitio_pg_string=PG_STRING)

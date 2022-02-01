@@ -14,8 +14,8 @@ if __name__ == "__main__":
     CURRENTYEAR = datetime.datetime.today().year
     QUIT_RATE_TABLE = "quit_rate"
     HIRE_RATE_TABLE = "hire_rate"
-    LD_TABLE="layoffs_discharges"
-    OPENINGS_TABLE="job_openings"
+    LD_TABLE="layoffs_discharges_rate"
+    OPENINGS_TABLE="job_openings_rate"
 
     # Download Updated JOLTS Data For Each Table Needed
     ## Seasonally Adjusted Quit Rate (for Monthly estimates)
@@ -56,7 +56,7 @@ if __name__ == "__main__":
             end_year=CURRENTYEAR,
             annual=False,
             registration_key=BLS_KEY,
-            name="Layoffs and Discharges",
+            name="Layoffs and Discharges Rate",
         )
     ld_sa["seasonal_adjustment"] = "S"
     ## layoffs & discharges (U)
@@ -68,7 +68,7 @@ if __name__ == "__main__":
             end_year=CURRENTYEAR,
             annual=False,
             registration_key=BLS_KEY,
-            name="Layoffs and Discharges",
+            name="Layoffs and Discharges Rate",
         )
     ld_u["seasonal_adjustment"] = "U"
 
@@ -512,3 +512,33 @@ if __name__ == "__main__":
     upload_table(df=industry_hires_combined, upload_schema=BITIO_REPO, upload_table="industry_hire_rate", bitio_pg_string=PG_STRING)
     upload_table(df=industry_hirelevel_combined, upload_schema=BITIO_REPO, upload_table="industry_hire_level", bitio_pg_string=PG_STRING)
     upload_table(df=industry_quitlevel_combined, upload_schema=BITIO_REPO, upload_table="industry_quit_level", bitio_pg_string=PG_STRING)
+
+    # layoffs and discharges level
+    layoffs_discharges_sa = build_jolts_dataframe(
+            element="LD",
+            rate_level="L",
+            sa="S",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=False,
+            registration_key=BLS_KEY,
+            name="Layoffs and Discharges Level",
+        )
+    layoffs_discharges_sa["seasonal_adjustment"] = "S"
+    ## separation Rate (U)
+    layoffs_discharges_u = build_jolts_dataframe(
+            element="LD",
+            rate_level="L",
+            sa="U",
+            start_year=2003,
+            end_year=CURRENTYEAR,
+            annual=True,
+            registration_key=BLS_KEY,
+            name="Layoffs and Discharges Level",
+        )
+    layoffs_discharges_u["seasonal_adjustment"] = "U"
+
+    ## Combined separation Rate
+    layoffs_discharges_combined = layoffs_discharges_sa.append(layoffs_discharges_u)
+
+    upload_table(df=layoffs_discharges_combined, upload_schema=BITIO_REPO, upload_table="layoffs_discharges_level", bitio_pg_string=PG_STRING)

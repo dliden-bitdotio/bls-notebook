@@ -32,7 +32,7 @@ def psql_insert_copy(table, conn, keys, data_iter):
 def upload_table(df, upload_schema, upload_table, bitio_pg_string):
     engine = create_engine(bitio_pg_string)
 
-    with engine.connect() as conn:
+    with engine.begin() as conn:
         # truncate table if exists
         if engine.dialect.has_table(
             connection=conn, table_name=upload_table, schema=upload_schema
@@ -55,7 +55,7 @@ def download_dataset(target, pg_string):
         FROM {target};
     """
     # Return SQL query as a pandas dataframe
-    with engine.connect() as conn:
+    with engine.begin() as conn:
         # Set 1 minute statement timeout (units are milliseconds)
         conn.execute("SET statement_timeout = 60000;")
         df = pd.read_sql(sql, conn)
